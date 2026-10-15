@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="nl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>StudieStart</title>
+<meta name="theme-color" content="#7c4dff">
+<meta name="description" content="Leer woorden met spelletjes en je eigen lijsten.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="StudieStart">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap">
+<style>
+:root{--bg:#f4f1ff;--card:#fff;--ink:#26224a;--mut:#6e6a8f;--acc:#7c4dff;--acc2:#ff7a59;--ok:#12b886;--bad:#f03e3e;--line:#e4defa;--t1:#7c4dff;--t2:#ff7a59;--t3:#12b886;--t4:#339af0;--sh:0 6px 18px rgba(80,60,160,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14122b;--card:#1f1c3d;--ink:#f1eeff;--mut:#a7a2d0;--acc:#9775fa;--acc2:#ff8e72;--ok:#38d9a9;--bad:#ff6b6b;--line:#322e5c;--t1:#8c68f5;--t2:#ff8660;--t3:#20c997;--t4:#4dabf7;--sh:0 6px 18px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--bg:#14122b;--card:#1f1c3d;--ink:#f1eeff;--mut:#a7a2d0;--acc:#9775fa;--acc2:#ff8e72;--ok:#38d9a9;--bad:#ff6b6b;--line:#322e5c;--t1:#8c68f5;--t2:#ff8660;--t3:#20c997;--t4:#4dabf7;--sh:0 6px 18px rgba(0,0,0,.35)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);background-image:radial-gradient(900px 420px at 90% -10%,color-mix(in srgb,var(--acc) 20%,transparent),transparent),radial-gradient(700px 380px at -10% 110%,color-mix(in srgb,var(--acc2) 16%,transparent),transparent);background-attachment:fixed;color:var(--ink);font:16px/1.5 Nunito,ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:640px;margin:0 auto;padding:20px 16px 56px}
+h1{font-size:28px;font-weight:800;margin:0 0 4px;color:var(--t1)}
+h2{font-size:19px;font-weight:800;margin:0 0 8px}
+.mut{color:var(--mut);font-size:14px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;box-shadow:var(--sh)}
+button,.btn{font:inherit;font-weight:700;cursor:pointer;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:10px 16px;transition:transform .08s,box-shadow .15s}
+button:hover{transform:translateY(-1px)}button:active{transform:translateY(2px)}
+button:disabled{opacity:.5;cursor:default}
+button.p{background:linear-gradient(135deg,var(--acc),#b197fc);border-color:transparent;color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.18)}
+button.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+button.bad{background:var(--bad);border-color:var(--bad);color:#fff}
+button.g{border:none;background:none;color:var(--mut);padding:6px 0;box-shadow:none}
+button.sm{padding:6px 10px;border-radius:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.sp{justify-content:space-between}
+input,textarea,select{font:inherit;padding:10px 12px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink)}
+input,textarea{width:100%}input:focus,textarea:focus,select:focus{outline:none;border-color:var(--acc)}
+textarea{min-height:180px}
+.hero{background:linear-gradient(135deg,var(--t1),#b197fc 55%,var(--t2));color:#fff;border-radius:24px;padding:18px;margin:4px 0 6px;box-shadow:var(--sh);display:grid;gap:8px}
+.hero h1{background:none;color:#fff;-webkit-text-fill-color:#fff;margin:0}.hero p{margin:0;opacity:.92}.hero small{opacity:.92}
+.lvl{display:flex;align-items:center;gap:10px}.lvl span{font-size:32px;line-height:1}.lvl small{margin-left:auto}
+.hb{background:rgba(255,255,255,.3)}.hb i{background:#fff}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.tl{display:flex;flex-direction:column;align-items:center;gap:2px;padding:18px 8px;border:none;color:#fff;border-radius:22px;box-shadow:0 5px 0 rgba(0,0,0,.2);font-size:16px;text-align:center}
+.tl span{font-size:38px;line-height:1.1}.tl small{font-weight:600;opacity:.92}
+.t1{background:var(--t1)}.t2{background:var(--t2)}.t3{background:var(--t3)}.t4{background:var(--t4)}
+.book{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.bi{flex:1;min-width:140px}.bi h2{margin:0;font-size:17px}
+.ic{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;font-size:26px}
+.acts{display:flex;gap:6px;align-items:center}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.games button{padding:16px 8px;text-align:center;border-radius:18px;box-shadow:var(--sh);font-size:17px}
+.games small{font-weight:600;color:var(--mut)}
+.games button:nth-child(4n+1){border-color:var(--t1)}.games button:nth-child(4n+2){border-color:var(--t2)}.games button:nth-child(4n+3){border-color:var(--t3)}.games button:nth-child(4n+4){border-color:var(--t4)}
+.flash{min-height:220px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:23px;font-weight:700;padding:24px;cursor:pointer;user-select:none;border-color:var(--acc);background:linear-gradient(135deg,var(--card),color-mix(in srgb,var(--acc) 14%,var(--card)))}
+.opt{display:block;width:100%;text-align:left;margin:8px 0}
+.mem{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{min-height:84px;font-size:13px;padding:6px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;word-break:break-word;border-radius:16px}
+.tile.dn{background:var(--ok);color:#fff;border-color:var(--ok)}.tile.up{background:var(--acc);color:#fff;border-color:var(--acc)}
+.lt{font-size:24px;font-weight:800;letter-spacing:4px;text-align:center;margin:12px 0;word-break:break-word}
+.kb{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.kb button{width:38px;padding:8px 0;border-radius:12px}
+.bar{height:10px;border-radius:10px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--t1),var(--t2));border-radius:10px;transition:width .3s}
+table{width:100%;border-collapse:collapse;font-size:14px}td{padding:6px 4px;border-top:1px solid var(--line);vertical-align:top}
+.wrap{overflow-x:auto}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;opacity:0;transition:.25s;z-index:20;pointer-events:none;max-width:90vw;text-align:center}#toast.show{opacity:1;transform:translate(-50%,0)}
+.cf{position:fixed;top:-40px;z-index:30;pointer-events:none;animation:fall 2.4s linear forwards}
+@keyframes fall{to{transform:translateY(115vh) rotate(360deg)}}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:21px;letter-spacing:.2px}.brand svg{flex:none;filter:drop-shadow(0 3px 6px rgba(0,0,0,.2))}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.chip{padding:5px 12px;border-radius:999px;font-size:14px;border:2px solid var(--line);background:var(--card);font-weight:700;color:var(--ink)}button.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}.mini{padding:3px 6px;font-size:13px;border-radius:10px}.goal{margin-top:2px}.opt.sel{background:var(--acc);color:#fff;border-color:var(--acc)}.match{display:grid;grid-template-columns:1fr 1fr;gap:10px}.match>div{display:grid;gap:8px;align-content:start}
+button:focus-visible,[data-c]:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+@media (max-width:480px){.games button:last-child:nth-child(odd){grid-column:1/-1}}
+@media (prefers-reduced-motion:reduce){button{transition:none}}
+.ball{color:#fff;border:none;border-radius:50% 50% 46% 46%;min-height:104px;padding:16px 14px;line-height:1.3;font-size:16px;animation:bob 2.6s ease-in-out infinite alternate}
+.ball:nth-child(2n){animation-delay:-1.1s}
+@keyframes bob{to{transform:translateY(-6px)}}
+.badges{display:flex;flex-wrap:wrap;gap:8px}.bdg{padding:6px 10px;border-radius:999px;border:2px solid var(--line);font-weight:700;font-size:14px}.bdg.on{background:var(--acc);border-color:var(--acc);color:#fff}.bdg.off{opacity:.45}
+html.big body{font-size:19px}html.big h1{font-size:34px}html.big h2{font-size:23px}
+@media (prefers-reduced-motion:reduce){.ball{animation:none}}
+</style></head><body><main id="app"></main>
+<script>
+const K='studiestart.v1';
+const demo={id:'demo',title:'Voorbeeld: Biologie hoofdstuk 1',cards:[
+['Cel','Kleinste eenheid van leven'],['Celkern','Bevat het erfelijk materiaal (DNA)'],['Mitochondrie','Zet voedingsstoffen om in energie'],
+['Chloroplast','Hier vindt fotosynthese plaats'],['Celmembraan','Bepaalt wat de cel in en uit mag'],['Ribosoom','Maakt eiwitten aan'],
+['Fotosynthese','Zonlicht, water en CO2 worden suiker en zuurstof'],['Weefsel','Groep cellen met dezelfde functie']].map(x=>({t:x[0],d:x[1]}))};
+let books=null;try{books=JSON.parse(localStorage.getItem(K))}catch(e){}
+if(!Array.isArray(books)){books=[demo];save()}
+function save(){try{localStorage.setItem(K,JSON.stringify(books))}catch(e){}}
+const app=document.getElementById('app');
+let s={v:'home'},g=null;
+const esc=x=>String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const bk=()=>books.find(b=>b.id===s.id);
+function go(v,o){s=Object.assign({v},o||{});g=null;render();window.scrollTo(0,0)}
+function parse(txt){const out=[];txt.split(/\r?\n/).forEach(l=>{l=l.replace(/^\uFEFF/,'').trim().replace(/^(?:\d{1,3}[.)]|[-•*])\s+/,'');if(!l)return;
+ const m=l.match(/^(.+?)\s*(?:\t|=|:|;| - )\s*(.+)$/)||l.match(/^(.+?)\s*,\s*(.+)$/),q=x=>x.trim().replace(/^"|"$/g,'').trim();
+ if(m&&q(m[1])&&q(m[2]))out.push({t:q(m[1]),d:q(m[2])})});return out}
+function render(){if(!TOK){terms();return}({home,book,add,game,cat,games})[s.v]();if(app.querySelector&&app.querySelector('[data-win]')){party();snd(2)}}
+const LV={vmbo:4,havo:5,vwo:6},ALL=['vmbo','havo','vwo'],HV=['havo','vwo'];
+const S4=['A','B','C','D'];
+const M=[['Wiskunde','Getal & Ruimte',ALL,1,6,S4],['Wiskunde','Moderne Wiskunde',ALL,1,6,S4],
+['Nederlands','Nieuw Nederlands',ALL,1,6],['Nederlands','Op Niveau',ALL,1,6],['Nederlands','Talent',HV,1,6],
+['Engels','Stepping Stones',ALL,1,3],['Engels','KERN Engels',ALL,1,3],['Engels','Network',ALL,1,6],['Engels','High Note',HV,4,6],['Engels','Of Course!',ALL,1,6],
+['Frans','Grandes Lignes',HV,1,6],['Frans','\u00c0 plus !',HV,1,6],
+['Duits','Na Klar!',ALL,1,6],['Duits','Neue Kontakte',ALL,1,6],['Duits','TrabiTour',HV,1,3],
+['Biologie','Nectar',ALL,1,6],['Biologie','Biologie voor jou',ALL,1,6],
+['NaSk','Overal NaSk',ALL,1,2],['NaSk','Pulsar NaSk',ALL,1,2],['NaSk','Overal NaSk 1',['vmbo'],3,4],['NaSk','Overal NaSk 2',['vmbo'],3,4],['NaSk','Pulsar NaSk 1',['vmbo'],3,4],['NaSk','Pulsar NaSk 2',['vmbo'],3,4],
+['Natuurkunde','Overal Natuurkunde',ALL,3,6],['Natuurkunde','Pulsar Natuurkunde',HV,4,6],['Natuurkunde','Newton',HV,4,6],['Natuurkunde','Systematische Natuurkunde',HV,4,6],['Natuurkunde','Nova',ALL,2,6],
+['Scheikunde','Chemie Overal',ALL,3,6],['Scheikunde','Pulsar Chemie',HV,4,6],['Scheikunde','Nova',ALL,2,6],
+['Aardrijkskunde','De Geo',ALL,1,6],['Aardrijkskunde','The Geo (tweetalig)',HV,1,3],['Aardrijkskunde','buiteNLand',HV,1,6],['Aardrijkskunde','De Wereld van',ALL,1,6],['Aardrijkskunde','Meander',ALL,1,6],
+['Geschiedenis','Feniks',ALL,1,6],['Geschiedenis','Geschiedeniswerkplaats',ALL,1,6],['Geschiedenis','Memo',ALL,1,6],
+['Economie','Pincode',ALL,2,6],['Economie','Praktische Economie',HV,4,6],['Economie','Economie Integraal',HV,3,6],['Bedrijfseconomie','Pincode Bedrijfseconomie',HV,4,6],
+['Maatschappijleer',"Thema's Maatschappijleer",HV,4,6],['Maatschappijleer','Dilemma',HV,1,3],['Mens & Maatschappij','Mundo',ALL,1,3]];
+const CAT=[];M.forEach(([v,m,ns,y0,y1,subs])=>ns.forEach(n=>{for(let j=y0;j<=Math.min(y1,LV[n]);j++){if(subs&&j>=4&&n!=='vmbo')subs.forEach(s=>CAT.push({v,m,n,j,s}));else CAT.push({v,m,n,j})}}));
+const cid=c=>c.m+'|'+c.n+'|'+c.j+(c.s?'|'+c.s:'');
+let F={n:'',j:'',v:'',q:''};
+function cat(){
+ const vs=[...new Set(M.map(x=>x[0]))];const o=(a,v)=>a.map(x=>`<option ${x==v?'selected':''}>${x}</option>`).join('');
+ app.innerHTML=`<button class="g" data-c="go('home')">← Terug</button><h1>Boeken kiezen</h1>
+ <p class="mut">Kies je niveau, leerjaar en vak en voeg toe wat jij gebruikt. Let op: de lijst is een startpunt en kan onvolledig zijn. De inhoud van de boeken zit er niet in; die voeg je zelf toe.</p>
+ <div class="row"><select id="fn" data-i="1"><option value="">Alle niveaus</option>${o(ALL,F.n)}</select>
+ <select id="fj" data-i="1"><option value="">Alle jaren</option>${o([1,2,3,4,5,6],F.j)}</select>
+ <select id="fv" data-i="1"><option value="">Alle vakken</option>${o(vs,F.v)}</select></div>
+ <input id="fq" style="margin-top:8px" placeholder="Zoek op methode of vak" value="${esc(F.q)}" data-i="1"><div id="cl"></div>`;fillList()}
+function setF(){const V=id=>{const e=document.getElementById(id);return e?e.value:''};F={n:V('fn'),j:V('fj'),v:V('fv'),q:V('fq')};fillList()}
+function fillList(){
+ const q=F.q.toLowerCase();const r=CAT.filter(c=>(!F.n||c.n===F.n)&&(!F.j||c.j==F.j)&&(!F.v||c.v===F.v)&&(!q||(c.m+' '+(c.s||'')+' '+c.v).toLowerCase().includes(q)));
+ const have=new Set(books.map(b=>b.cid));
+ document.getElementById('cl').innerHTML=r.slice(0,50).map(c=>{const i=CAT.indexOf(c),id=cid(c);
+ return `<div class="card row sp"><div><b>${esc(c.m)}${c.s?' '+c.s:''}</b><br><span class="mut">${c.v} · ${c.n} ${c.j}</span></div>${have.has(id)?'<span class="mut">✓ Toegevoegd</span>':`<button class="p" data-c="addCat(${i})">Toevoegen</button>`}</div>`}).join('')
+ +(r.length>50?`<p class="mut">Nog ${r.length-50} meer, gebruik de filters.</p>`:'')+(r.length?'':'<p class="mut">Niets gevonden.</p>')
+ +`<p class="mut">Staat jouw boek er niet bij? <a href="#" data-c="go('add')">Voeg het zelf toe</a>.</p>`}
+function addCat(i){const c=CAT[i];books.push({id:'b'+Date.now(),cid:cid(c),title:c.m+(c.s?' '+c.s:'')+' — '+c.n+' '+c.j+' ('+c.v+')',cards:[]});save();fillList()}
+function home(){
+ const lv=LEVELS.filter(l=>PTS>=l[0]).pop(),nx=LEVELS.find(l=>l[0]>PTS);
+ app.innerHTML=`<div class="hero"><div class="brand"><svg viewBox="0 0 64 64" width="46" height="46" role="img" aria-label="StudieStart logo"><defs><linearGradient id="lgo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c4dff"/><stop offset="1" stop-color="#ff7a59"/></linearGradient></defs><rect width="64" height="64" rx="18" fill="#fff"/><path d="M10 30C19 26 27 27 32 32C37 27 45 26 54 30V50C45 46 37 47 32 52C27 47 19 46 10 50Z" fill="url(#lgo)"/><path d="M32 33V51" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"/><path d="M32 5L34.6 11.4L41 14L34.6 16.6L32 23L29.4 16.6L23 14L29.4 11.4Z" fill="#ff7a59"/></svg><span>StudieStart</span></div><div><h1>Hoi! 👋</h1><p>Wat ga je vandaag leren?</p></div>
+ <div class="lvl"><span>${lv[1]}</span><b>${lv[2]}</b><small>⭐ ${PTS} punten</small></div>
+ ${nx?`<div class="bar hb"><i style="width:${(PTS-lv[0])/(nx[0]-lv[0])*100}%"></i></div><small>Nog ${nx[0]-PTS} punten tot ${nx[2]} ${nx[1]}</small>`:'<small>Hoogste level bereikt! 👑</small>'}${goalRow()}</div>
+ <div class="tiles">
+ <button class="tl t1" data-c="go('games')"><span>🎮</span>Spelletjes<small>11 spellen</small></button>
+ <button class="tl t2" data-c="go('cat')"><span>📖</span>Boek kiezen<small>uit de lijst</small></button>
+ <button class="tl t3" data-c="go('add',{own:'1'})"><span>📝</span>Eigen lijst<small>typ of plak woorden</small></button>
+ <button class="tl t4" data-c="go('add',{photo:'1'})"><span>📷</span>Foto → lijst<small>maak een foto</small></button></div>
+ ${wotd()}${badges()}<h2>Mijn boeken en lijsten</h2>
+ ${books.length?books.map(b=>bookCard(b)).join(''):'<p class="mut">Nog niks. Kies een boek of maak een lijst.</p>'}
+ <div class="card"><b>💾 Back-up</b><p class="mut">Je lijsten staan alleen op dit apparaat. Maak een back-up om ze naar je andere apparaat te brengen.</p><div class="row"><button data-c="exportData()">⬇️ Back-up maken</button><button data-c="pickImport()">⬆️ Terugzetten</button></div><input type="file" id="imp" accept=".json,application/json" hidden></div>
+ <div class="card"><b>⚙️ Instellingen</b><div class="row" style="margin-top:8px"><button class="sm" data-c="togSound()">${SOUND?'🔊 Geluid aan':'🔇 Geluid uit'}</button><span class="mut">Dagelijks doel:</span><select data-i="goal">${[10,20,50,100].map(v=>`<option ${v===GOAL?'selected':''}>${v}</option>`).join('')}</select><span class="mut">punten</span></div><div class="row" style="margin-top:8px"><span class="mut">Thema:</span><select data-i="theme"><option value="auto" ${THEME==='auto'?'selected':''}>Automatisch</option><option value="light" ${THEME==='light'?'selected':''}>Licht</option><option value="dark" ${THEME==='dark'?'selected':''}>Donker</option></select><span class="mut">Tekst:</span><select data-i="font"><option value="n" ${FONT==='n'?'selected':''}>Normaal</option><option value="l" ${FONT==='l'?'selected':''}>Groot</option></select></div></div>`;
+ const im=document.getElementById('imp');if(im)im.onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)importData(f)}}
+function add(){
+ const b=s.edit?books.find(x=>x.id===s.edit):null;
+ const H=b?'Woorden toevoegen':s.photo?'📷 Foto → woordenlijst':s.own?'📝 Eigen woordenlijst':'Boek of lijst toevoegen';
+ app.innerHTML=`<button class="g" data-c="go('${b?'book':'home'}',{id:'${b?b.id:''}'})">← Terug</button><h1>${H}</h1>
+ ${b?'':'<p>Naam van je lijst of boek</p><input id="ti" placeholder="bijv. Engels Unit 3">'}
+ ${whereHtml(b)}
+ <div class="card" id="phc"><b>📷 Foto of bestand → lijst</b>
+ <p class="mut">Maak een foto van een woordenlijst, kies een bestand (foto, .txt of .csv) of plak een screenshot (Ctrl+V). De tekst wordt uitgelezen en jij controleert hem daarna.</p>
+ <div class="row"><button class="p" data-c="pickPhoto('cam')">📷 Foto maken</button><button data-c="pickPhoto('file')">🖼️ Bestand kiezen</button><button data-c="pastePhoto()">📋 Plakken</button></div>
+ <div id="lgrow" class="row" style="margin-top:10px"><span class="mut">Taal in de foto:</span><select data-i="lang">${Object.keys(LANGS).map(k=>`<option value="${k}" ${k===OLANG?'selected':''}>${LANGS[k][0]}</option>`).join('')}</select></div>
+ <input type="file" id="ph" accept="image/*" capture="environment" hidden><input type="file" id="pf" accept="image/*,.txt,.csv,text/plain" multiple hidden>
+ <p id="phs" class="mut"></p></div>
+ <p>Of typ of plak je woorden: één per regel, bijvoorbeeld <code>woord = uitleg</code> (ook <code>:</code>, <code>;</code> of tab werkt).</p>
+ <textarea id="tx" placeholder="mitose = celdeling&#10;apple = appel"></textarea>
+ <p id="pv" class="mut"></p><button class="p" data-c="doAdd()">Opslaan</button>`;
+ const tx=document.getElementById('tx'),pv=document.getElementById('pv');
+ const upd=()=>pv.textContent=parse(tx.value).length+' begrippen herkend';tx.oninput=upd;
+ ['ph','pf'].forEach(id=>{document.getElementById(id).onchange=e=>{const f=[...e.target.files];e.target.value='';handleFiles(f)}});
+ getSample().then(sm=>{const r=document.getElementById('lgrow');if(sm&&r)r.style.display='none'})}
+function doAdd(){let cards=parse(document.getElementById('tx').value);{const sn=new Set();cards=cards.filter(c=>{const k=c.t+'¦'+c.d;if(sn.has(k))return false;sn.add(k);return true})}if(!cards.length){toast('Geen begrippen herkend. Gebruik "woord = uitleg" per regel.');return}
+ {const V=id=>{const e=document.getElementById(id);return e?e.value:''},sh=+V('sh')||0,so=(V('sc').trim()||V('so')).replace(/['"()<>&]/g,'');cards.forEach(c=>{if(sh)c.h=sh;if(so)c.o=so});window.__sh=sh}
+ if(s.edit){const b=books.find(x=>x.id===s.edit);const have=new Set(b.cards.map(c=>c.t+'¦'+c.d)),nw=cards.filter(c=>!have.has(c.t+'¦'+c.d));b.cards.push(...nw);save();go('book',{id:b.id});toast(nw.length?nw.length+' toegevoegd ✓':'Die stonden er al in')}
+ else{const t=document.getElementById('ti').value.trim()||'Nieuwe lijst';const b={id:'b'+Date.now(),title:t,nch:window.__sh||0,cards};books.push(b);save();go('book',{id:b.id})}}
+
+function delCard(i){bk().cards.splice(i,1);save();book()}
+function start(t){let c=pool(bk());
+ const need={flash:1,quiz:4,mem:4,type:1,race:4,tf:2,hang:1,scr:1,mat:3,sur:4,exam:1,pop:4,duel:4}[t]||1;
+ if(!c.length){toast(s.hard?'Geen moeilijke woorden meer. Goed bezig! 🎉':'Geen woorden geselecteerd.');return}
+ if(c.length<need){toast('Voeg minstens '+need+' woorden toe (of kies meer hoofdstukken).');return}
+ c=c.map(x=>DIR==='d2t'?{t:x.d,d:x.t,_:x}:{t:x.t,d:x.d,_:x});
+ const Q=n=>shuf(c).slice(0,n),AS=x=>x.t.length<=x.d.length?{ask:x.d,ans:x.t,_:x._}:{ask:x.t,ans:x.d,_:x._};
+ if(t==='hang'){const hs=c.map(AS).filter(x=>x.ans.length<=20&&/[a-z]/.test(nc(x.ans)));if(!hs.length){toast('Galgje werkt met korte woorden. Deze lijst heeft die niet.');return}
+  s.v='game';g={t,src:shuf(hs).slice(0,5),i:0,score:0};hangNew();render();return}
+ if(t==='scr'){const ss=c.map(AS).filter(x=>x.ans.replace(/\s/g,'').length>=3&&x.ans.length<=16);if(!ss.length){toast('Dit spel werkt met korte woorden. Deze lijst heeft die niet.');return}
+  s.v='game';g={t,src:shuf(ss).slice(0,8),i:0,score:0};scNew();render();return}
+ s.v='game';
+ if(t==='flash')g={t,deck:shuf(c),i:0,flip:false,know:0,miss:[]};
+ if(t==='quiz')g={t,qs:Q(10).map(q=>({q,opts:mkOpts(c,q)})),i:0,score:0,pick:null};
+ if(t==='mem'){const p=Q(6);g={t,tiles:shuf(p.flatMap((x,i)=>[{p:i,x:x.t},{p:i,x:x.d}])),open:[],done:[],moves:0,lock:false}}
+ if(t==='type')g={t,deck:Q(10).map(AS),i:0,score:0,res:null};
+ if(t==='tf')g={t,qs:Q(12).map(q=>{const o=shuf(c.filter(x=>x.d!==q.d))[0],ok=!o||Math.random()<.5;return{q,shown:ok?q.d:o.d,ok}}),i:0,score:0,pick:null};
+ if(t==='mat'){const p=Q(15),rs=[];for(let i=0;i<p.length;i+=5)rs.push(p.slice(i,i+5));g={t,rs:rs.filter(r=>r.length>=2),r:0,score:0,wrong:0,sel:null};matNew()}
+ if(t==='sur'){g={t,c,q:shuf(c),i:0,lives:3,score:0,pick:null};surQ()}
+ if(t==='exam')g={t,deck:Q(20).map(AS),i:0,ans:[],done:false};
+ if(t==='pop'){g={t,c,left:30,score:0,streak:0,best:0,q:null};popQ();const gg=g;g.iv=setInterval(()=>{if(g!==gg){clearInterval(gg.iv);return}gg.left--;if(gg.left<=0){clearInterval(gg.iv);render()}else{const a=document.getElementById('pl');if(a)a.textContent=gg.left}},1000)}
+if(t==='duel'){g={t,c,n:0,total:Math.min(8,c.length),p:[0,0],turn:0,q:null,pick:null};duelQ()}
+if(t==='race'){g={t,c,left:60,score:0,wrong:0};raceQ();const gg=g;g.iv=setInterval(()=>{if(g!==gg){clearInterval(gg.iv);return}gg.left--;if(gg.left<=0){clearInterval(gg.iv);render()}else{const a=document.getElementById('rl');if(a)a.textContent=gg.left;const bi=document.querySelector&&document.querySelector('.bar i');if(bi)bi.style.width=gg.left/60*100+'%'}},1000)}
+ render()}
+const hd=(t,pct)=>`<div class="row sp"><button class="g" data-c="${s.from==='games'?'backGames()':`go('book',{id:'${s.id}'})`}">← Stoppen</button><span class="mut">${t}</span></div>${pct!=null?`<div class="bar"><i style="width:${pct}%"></i></div>`:''}`;
+function game(){({flash,quiz,mem,type:gType,tf:gTf,hang:gHang,race:gRace,scr:gScr,mat:gMat,sur:gSur,exam:gExam,pop:gPop,duel:gDuel})[g.t]()}
+function flash(){
+ if(g.i>=g.deck.length){app.innerHTML=hd('Klaar!',100)+`<div class="card" data-win="1"><h2>🎉 Klaar</h2><p>Je wist ${g.know} van ${g.deck.length}.</p>
+ ${g.miss.length?`<button class="p" data-c="flashAgain()">Herhaal ${g.miss.length} lastige</button> `:''}
+ <button data-c="start('flash')">Opnieuw</button></div>`;return}
+ const c=g.deck[g.i];
+ app.innerHTML=hd(`${g.i+1} / ${g.deck.length}`,g.i/g.deck.length*100)+`<div class="card flash" role="button" tabindex="0" data-c="flashFlip()">${esc(g.flip?c.d:c.t)}</div>
+ <p class="mut" style="text-align:center">Tik op de kaart om om te draaien</p>
+ ${'speechSynthesis' in window?'<div class="row" style="justify-content:center;margin-bottom:8px"><button class="sm" data-c="say()">🔊 Voorlezen</button></div>':''}
+ ${g.flip?`<div class="row"><button class="bad" style="flex:1" data-c="flashMiss()">Nog oefenen</button>
+ <button class="ok" style="flex:1" data-c="flashKnow()">Ik wist het</button></div>`:''}`}
+function quiz(){
+ if(g.i>=g.qs.length){app.innerHTML=hd('Klaar!',100)+`<div class="card" data-win="1"><h2>Score: ${g.score} / ${g.qs.length}</h2><p>${g.score===g.qs.length?'Perfect! 🏆':g.score>=g.qs.length*.7?'Goed bezig! 👍':'Blijf oefenen, je komt er wel. 💪'}</p>
+ <button class="p" data-c="start('quiz')">Nog een keer</button></div>`;return}
+ const q=g.qs[g.i];
+ app.innerHTML=hd(`Vraag ${g.i+1} / ${g.qs.length}`,g.i/g.qs.length*100)+`<div class="card"><p class="mut">Kies het juiste antwoord bij:</p><h2>${esc(q.q.t)}</h2>
+ ${q.opts.map((o,k)=>{let c='';if(g.pick!==null){if(o===q.q.d)c='ok';else if(k===g.pick)c='bad'}
+ return `<button class="opt ${c}" ${g.pick!==null?'disabled':''} data-c="pickQ(${k})">${esc(o)}</button>`}).join('')}
+ ${g.pick!==null?`<button class="p" data-c="quizNext()">Volgende →</button>`:''}</div>`}
+function pickQ(k){if(g.pick!==null)return;g.pick=k;const q=g.qs[g.i],ok=q.opts[k]===q.q.d;mark(q.q,ok);if(ok){g.score++;addPts(1);snd(1)}else snd(0);render()}
+function mem(){
+ const win=g.done.length===g.tiles.length;
+ app.innerHTML=hd(`${g.moves} beurten`,g.done.length/g.tiles.length*100)+
+ (win?`<div class="card" data-win="1"><h2>🎉 Gelukt in ${g.moves} beurten!</h2><button class="p" data-c="start('mem')">Opnieuw</button></div>`:'<p class="mut">Zoek het begrip bij de bijbehorende uitleg.</p>')+
+ `<div class="mem">${g.tiles.map((t,i)=>{const dn=g.done.includes(i),up=g.open.includes(i);
+ return `<button class="tile ${dn?'dn':up?'up':''}" data-c="flip(${i})">${dn||up?esc(t.x):'?'}</button>`}).join('')}</div>`}
+function flip(i){if(g.lock||g.open.includes(i)||g.done.includes(i))return;g.open.push(i);
+ if(g.open.length===2){g.moves++;const[a,b]=g.open;
+  if(g.tiles[a].p===g.tiles[b].p&&g.tiles[a].x!==g.tiles[b].x){g.done.push(a,b);g.open=[]}
+  else{g.lock=true;render();const gg=g;setTimeout(()=>{if(g!==gg)return;g.open=[];g.lock=false;render()},900);return}}
+ render()}
+function flashFlip(){g.flip=!g.flip;render()}
+function flashMiss(){mark(g.deck[g.i],false);g.miss.push(g.deck[g.i]);g.i++;g.flip=false;render()}
+function flashKnow(){mark(g.deck[g.i],true);g.know++;addPts(1);snd(1);g.i++;g.flip=false;render()}
+function flashAgain(){g.deck=shuf(g.miss);g.i=0;g.know=0;g.miss=[];g.flip=false;render()}
+function quizNext(){g.i++;g.pick=null;render()}
+let DIR='t2d';
+const nc=ch=>ch.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const norm=x=>nc(x).replace(/[^\p{L}\p{N}\s]/gu,'').replace(/\s+/g,' ').trim();
+function popQ(){const q=g.c[Math.random()*g.c.length|0];g.q={q,opts:mkOpts(g.c,q)}}
+function popA(k){if(!g||g.t!=='pop'||g.left<=0||!g.q)return;const ok=g.q.opts[k]===g.q.q.d;mark(g.q.q,ok);if(ok){g.score++;g.streak++;g.best=Math.max(g.best,g.streak);addPts(1);snd(1)}else{g.streak=0;snd(0)}popQ();render()}
+function gPop(){
+ if(g.left<=0){const rec=bestUp('pop',g.score);app.innerHTML=hd('Klaar!',100)+`<div class="card" data-win="1"><h2>🎈 ${g.score} ballon${g.score===1?'':'nen'} geprikt</h2><p class="mut">Beste serie: ${g.best} op rij${rec}</p><button class="p" data-c="start('pop')">Nog een keer</button></div>`;return}
+ const q=g.q;
+ app.innerHTML=hd('🎈 Ballonpop',null)+`<div class="row sp" style="margin-top:8px"><b>⏱️ <span id="pl">${g.left}</span> s</b><span class="mut">Serie ${g.streak} · ${g.score} geprikt</span></div>
+ <div class="card" style="text-align:center"><p class="mut">Welke uitleg hoort bij dit woord?</p><h2>${esc(q.q.t)}</h2></div>
+ <div class="mem" style="grid-template-columns:repeat(2,1fr)">${q.opts.map((o,k)=>`<button class="ball t${k%4+1}" data-c="popA(${k})">${esc(o)}</button>`).join('')}</div>`}
+function duelQ(){const q=g.c[Math.random()*g.c.length|0];g.q={q,opts:mkOpts(g.c,q)};g.pick=null}
+function duelA(k){if(!g||g.t!=='duel'||g.pick!==null)return;g.pick=k;const ok=g.q.opts[k]===g.q.q.d;mark(g.q.q,ok);if(ok){g.p[g.turn]++;addPts(1);snd(1)}else snd(0);render()}
+function duelNext(){if(!g||g.t!=='duel')return;g.n++;g.turn=1-g.turn;if(g.n<g.total)duelQ();render()}
+function gDuel(){
+ const P=['🔵 Speler 1','🟠 Speler 2'];
+ if(g.n>=g.total){const w=g.p[0]>g.p[1]?'🏆 Speler 1 wint!':g.p[1]>g.p[0]?'🏆 Speler 2 wint!':'🤝 Gelijkspel!';app.innerHTML=hd('Klaar!',100)+`<div class="card" data-win="1"><h2>${w}</h2><p>${P[0]}: ${g.p[0]} · ${P[1]}: ${g.p[1]}</p><button class="p" data-c="start('duel')">Nog een duel</button></div>`;return}
+ const q=g.q;
+ const head=`<div class="row sp"><b>${P[0]}: ${g.p[0]}</b><b>${P[1]}: ${g.p[1]}</b></div>`;
+ let body;
+ if(g.pick===null){body=`<p class="mut" style="text-align:center">${P[g.turn]} is aan de beurt</p><div class="card" style="text-align:center"><h2>${esc(q.q.t)}</h2></div>${q.opts.map((o,k)=>`<button class="opt" data-c="duelA(${k})">${esc(o)}</button>`).join('')}`}
+ else{const ok=q.opts[g.pick]===q.q.d;body=`<div class="card" style="text-align:center"><h2>${esc(q.q.t)}</h2><p style="font-weight:600;color:var(--${ok?'ok':'bad'})">${ok?'✓ Goed!':'✗ Fout. Het juiste antwoord is: '+esc(q.q.d)}</p></div><button class="p" style="width:100%" data-c="duelNext()">Volgende →</button>`}
+ app.innerHTML=hd(`Vraag ${g.n+1} / ${g.total}`,g.n/g.total*100)+head+body}
+function badges(){const nb=books.filter(b=>b.id!=='demo').length,rec=BEST||{},st=dayState().streak;
+ const L=[['🌱','Eerste stap',PTS>=1],['🔥','Op dreef (3 dagen)',st>=3],['📅','Week-held (7 dagen)',st>=7],['💯','100 punten',PTS>=100],['📚','Boekenwurm (3 lijsten)',nb>=3],['⚡','Snelheidsduivel',(rec.race||0)>=20||(rec.pop||0)>=10]];
+ return `<div class="card"><b>🏅 Badges</b><div class="badges" style="margin-top:8px">${L.map(x=>`<span class="bdg ${x[2]?'on':'off'}">${x[0]} ${x[1]}</span>`).join('')}</div></div>`}
+function wotd(){const all=books.flatMap(b=>b.cards);if(!all.length)return '';const w=all[+iso(new Date()).replace(/-/g,'')%all.length];return `<div class="card"><b>✨ Woord van de dag</b><h2 style="margin-top:6px">${esc(w.t)}</h2><p class="mut" style="margin:0">${esc(w.d)}</p></div>`}
+async function copyTxt(){const b=bk();if(!b||!b.cards.length){toast('Deze lijst is nog leeg.');return}const txt=b.cards.map(c=>c.t+' = '+c.d).join('\n');try{await navigator.clipboard.writeText(txt);toast('Gekopieerd ✓')}catch(e){const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();let ok=false;try{ok=document.execCommand('copy')}catch(e2){}t.remove();toast(ok?'Gekopieerd ✓':'Kopiëren lukt hier niet.')}}
+function setTheme(v){THEME=v;if(v==='light'||v==='dark')document.documentElement.dataset.theme=v;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studiestart.theme',v)}catch(e){}render()}
+function setFont(v){FONT=v;document.documentElement.classList.toggle('big',v==='l');try{localStorage.setItem('studiestart.font',v)}catch(e){}render()}
+function games(){
+ s.from='games';
+ const ok=books.filter(b=>b.cards.length);
+ if(!ok.length){app.innerHTML=`<button class="g" data-c="go('home')">← Terug</button><h1>🎮 Spelletjes</h1><div class="card">Je hebt nog geen woorden. Maak eerst een lijst, bijvoorbeeld met een foto.</div><button class="p" data-c="go('add',{photo:'1'})">📷 Lijst maken</button>`;return}
+ if(!ok.find(b=>b.id===s.id))s.id=ok[0].id;
+ const G=[['flash','🃏','Flitskaarten','Draai en leer'],['quiz','❓','Quiz','Meerkeuze'],['mem','🧠','Memory','Koppel de paren'],['type','⌨️','Typen','Typ het antwoord'],['race','⚡','Tijdrace','60 seconden'],['tf','✅','Waar of niet?','Klopt het?'],['hang','🔤','Galgje','Raad het woord'],['scr','🧩','Letters ordenen','Zet ze in volgorde'],['mat','🔗','Koppelen','Verbind de paren'],['sur','🔥','Overleven','3 levens'],['exam','📝','Proeftoets','Krijg een cijfer'],['pop','🎈','Ballonpop','Tik het goede ballon, 30 sec'],['duel','👥','Duel','Twee spelers, om de beurt']];
+ app.innerHTML=`<button class="g" data-c="go('home')">← Terug</button><h1>🎮 Spelletjes</h1>
+ <p class="mut">Kies je lijst</p><select data-i="src" style="width:100%">${ok.map(b=>`<option value="${b.id}" ${b.id===s.id?'selected':''}>${esc(b.title)} (${b.cards.length})</option>`).join('')}</select>
+ <p class="mut">Richting</p><select data-i="dir" style="width:100%"><option value="t2d" ${DIR==='t2d'?'selected':''}>Woord → uitleg</option><option value="d2t" ${DIR==='d2t'?'selected':''}>Uitleg → woord</option></select>
+ ${chipsFor(bk())}
+ <div class="games" style="margin-top:16px">${G.map(x=>`<button data-c="start('${x[0]}')">${x[1]} ${x[2]}<br><small>${x[3]}</small></button>`).join('')}</div>`}
+const fin=(txt,again)=>hd('Klaar!',100)+`<div class="card" data-win="1"><h2>${txt}</h2><button class="p" data-c="start('${again}')">Nog een keer</button></div>`;
+function gType(){
+ if(g.i>=g.deck.length){app.innerHTML=fin(`Score: ${g.score} / ${g.deck.length}`,'type');return}
+ const c=g.deck[g.i],r=g.res;
+ app.innerHTML=hd(`${g.i+1} / ${g.deck.length}`,g.i/g.deck.length*100)+`<div class="card"><p class="mut">Typ het bijbehorende antwoord</p><h2>${esc(c.ask)}</h2>
+ <input id="ans" autocomplete="off" autocapitalize="none" ${r?'disabled value="'+esc(r.v)+'"':''} placeholder="Jouw antwoord">
+ ${r?`<p style="color:var(--${r.ok?'ok':'bad'});font-weight:600">${r.ok?'✓ Goed!':(r.near?'🤏 Bijna goed! Het juiste antwoord: ':'✗ Het juiste antwoord: ')+esc(c.ans)}</p><button class="p" data-c="typeNext()">Volgende →</button>`:`<div style="margin-top:10px"><button class="p" data-c="checkType()">Controleer</button></div>`}</div>`;
+ const a=document.getElementById('ans');if(a&&!r)a.focus()}
+function checkType(){if(g.res)return;const v=document.getElementById('ans').value;const m=accepts(v,g.deck[g.i].ans);g.res={ok:m===2,near:m===1,v};mark(g.deck[g.i],m===2);if(m===2){g.score++;addPts(2);snd(1)}else snd(0);render()}
+function typeNext(){g.i++;g.res=null;render()}
+function gTf(){
+ if(g.i>=g.qs.length){app.innerHTML=fin(`Score: ${g.score} / ${g.qs.length}`,'tf');return}
+ const q=g.qs[g.i],p=g.pick,good=p!==null&&(p===1)===q.ok;
+ app.innerHTML=hd(`${g.i+1} / ${g.qs.length}`,g.i/g.qs.length*100)+`<div class="card"><p class="mut">Klopt dit?</p><h2>${esc(q.q.t)}</h2><p style="font-size:20px">${esc(q.shown)}</p>
+ ${p===null?`<div class="row"><button class="bad" style="flex:1" data-c="tfA(0)">Niet waar</button><button class="ok" style="flex:1" data-c="tfA(1)">Waar</button></div>`:`<p style="font-weight:600;color:var(--${good?'ok':'bad'})">${good?'✓ Goed!':'✗ Fout. Het juiste antwoord is: '+esc(q.q.d)}</p><button class="p" data-c="tfNext()">Volgende →</button>`}</div>`}
+function tfA(k){if(g.pick!==null)return;g.pick=k;const ok=(k===1)===g.qs[g.i].ok;mark(g.qs[g.i].q,ok);if(ok){g.score++;addPts(1);snd(1)}else snd(0);render()}
+function tfNext(){g.i++;g.pick=null;render()}
+function hangNew(){const c=g.src[g.i];g.w=c.ans;g.hint=c.ask;g.guessed=new Set();g.wrong=0}
+function gHang(){
+ if(g.i>=g.src.length){app.innerHTML=fin(`Je raadde ${g.score} van ${g.src.length} woorden`,'hang');return}
+ const shown=[...g.w].map(ch=>/[a-z]/.test(nc(ch))?(g.guessed.has(nc(ch))?ch:'_'):ch);
+ const won=!shown.includes('_'),lost=g.wrong>=6,done=won||lost;
+ app.innerHTML=hd(`Woord ${g.i+1} / ${g.src.length}`,g.i/g.src.length*100)+`<div class="card"><p class="mut">Hint: ${esc(g.hint)}</p><div class="lt">${esc(shown.join(' '))}</div>
+ <p style="text-align:center">${'❤️'.repeat(6-g.wrong)}${'🖤'.repeat(g.wrong)}</p>
+ ${done?`<p style="text-align:center;font-weight:600;color:var(--${won?'ok':'bad'})">${won?'✓ Goed!':'✗ Het woord was: '+esc(g.w)}</p><div class="row" style="justify-content:center"><button class="p" data-c="hangNext(${won?1:0})">Volgende →</button></div>`:`<div class="kb">${'abcdefghijklmnopqrstuvwxyz'.split('').map(l=>`<button data-c="hg('${l}')" ${g.guessed.has(l)?'disabled':''}>${l}</button>`).join('')}</div>`}</div>`}
+function hg(l){if(g.guessed.has(l)||g.wrong>=6)return;g.guessed.add(l);if(![...g.w].some(ch=>nc(ch)===l))g.wrong++;render()}
+function hangNext(w){mark(g.src[g.i],!!w);if(w){g.score++;addPts(3);snd(1)}else snd(0);g.i++;if(g.i<g.src.length)hangNew();render()}
+function raceQ(){const q=g.c[Math.random()*g.c.length|0];g.q={q,opts:mkOpts(g.c,q)}}
+function gRace(){
+ if(g.left<=0){if(g.rec===undefined)g.rec=bestUp('race',g.score);app.innerHTML=fin(`⚡ ${g.score} goed, ${g.wrong} fout${g.rec}`,'race');return}
+ app.innerHTML=hd(`⏱ <b id="rl">${g.left}</b> s · ${g.score} goed`,g.left/60*100)+`<div class="card"><h2>${esc(g.q.q.t)}</h2>${g.q.opts.map((o,k)=>`<button class="opt" data-c="raceA(${k})">${esc(o)}</button>`).join('')}</div>`}
+function raceA(k){if(g.left<=0)return;const ok=g.q.opts[k]===g.q.q.d;mark(g.q.q,ok);if(ok){g.score++;addPts(1);snd(1)}else{g.wrong++;snd(0)}raceQ();render()}
+async function getSample(){try{return window.claude?await claude.use('sample'):null}catch(e){return null}}
+const PROMPT='Dit is een foto van een woordenlijst of een pagina uit een schoolboek. Haal alle woorden of begrippen met hun vertaling of uitleg eruit. Antwoord ALLEEN met regels in dit formaat, één per regel: woord = uitleg. Geen kopjes, nummers, opmaak of extra tekst. Behoud de taal van de foto en lees handschrift zo goed mogelijk. Staat er niets bruikbaars op, antwoord dan alleen met: LEEG';
+async function readPhoto(files){
+ const st=document.getElementById('phs'),tx=document.getElementById('tx');if(!st||!tx||!files.length)return;
+ const sm=await getSample();if(!sm)return ocrImages(files);
+ let lim=null;try{lim=await sm.limits()}catch(e){}
+ if(!lim||!lim.images)return ocrImages(files);
+ st.textContent='⏳ Claude leest je foto... dit duurt even.';
+ try{const r=await sm(PROMPT,{images:files.slice(0,lim.images.maxCount),cache:false});addText((r.text||'').replace(/```\w*/g,'').trim())}
+ catch(e){if(e&&e.code==='not_granted')return ocrImages(files);
+  const m={rate_limited:'Te veel pogingen. Wacht even en probeer opnieuw.',image_rejected:'Deze foto kan ik niet lezen. Probeer een andere (JPG of PNG).',cancelled:'Gestopt.'};
+  st.textContent=m[e&&e.code]||'Er ging iets mis bij het lezen van de foto. Probeer het opnieuw.'}}
+let PTS=0;try{PTS=+localStorage.getItem('studiestart.pts')||0}catch(e){}
+let THEME='auto',FONT='n';try{THEME=localStorage.getItem('studiestart.theme')||'auto';FONT=localStorage.getItem('studiestart.font')||'n'}catch(e){}
+if(THEME==='light'||THEME==='dark')document.documentElement.dataset.theme=THEME;if(FONT==='l')document.documentElement.classList.add('big');
+const LEVELS=[[0,'🌱','Beginner'],[50,'🌿','Leerling'],[150,'🌟','Slimmerik'],[400,'🚀','Expert'],[1000,'👑','Meester']];
+const ICONS=[['Bedrijfseconomie','📊'],['Economie','💶'],['Wiskunde','➗'],['Nederlands','📚'],['Engels','🇬🇧'],['Frans','🇫🇷'],['Duits','🇩🇪'],['Biologie','🧬'],['NaSk','🔬'],['Natuurkunde','⚛️'],['Scheikunde','🧪'],['Aardrijkskunde','🌍'],['Geschiedenis','🏛️'],['Maatschappijleer','🤝'],['Mens & Maatschappij','🧑‍🤝‍🧑']];
+const COL=['#7c4dff','#ff7a59','#12b886','#339af0','#f783ac','#fab005'];
+const icon=b=>{const m=b.title.match(/\(([^)]+)\)\s*$/),k=m?m[1]:b.title,r=ICONS.find(x=>k.includes(x[0]));return r?r[1]:'📝'};
+const col=b=>{let h=0;for(const ch of b.id)h=(h*31+ch.charCodeAt(0))>>>0;return COL[h%COL.length]};
+function toast(m){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';document.body.appendChild(t)}t.textContent=m;t.className='show';clearTimeout(toast.h);toast.h=setTimeout(()=>{t.className=''},2600)}
+function party(){if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;const E=['🎉','⭐','✨','🎈','🏆','💜'];for(let i=0;i<26;i++){const e=document.createElement('span');e.className='cf';e.textContent=E[i%E.length];e.style.left=Math.random()*100+'vw';e.style.animationDelay=Math.random()*.6+'s';e.style.fontSize=16+Math.random()*18+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),3200)}}
+function bookCard(b,inside){
+ const c=col(b);
+ if(s.ren===b.id)return `<div class="card" style="border-left:6px solid ${c}"><p class="mut">Nieuwe naam</p><input id="rn" value="${esc(b.title)}"><div class="row" style="margin-top:10px"><button class="p" data-c="saveRen('${b.id}')">Opslaan</button><button data-c="cancelRen()">Annuleer</button></div></div>`;
+ if(s.del===b.id)return `<div class="card" style="border-left:6px solid var(--bad)"><b>“${esc(b.title)}” verwijderen?</b><p class="mut">Alle ${b.cards.length} begrippen gaan weg. Dit kan niet ongedaan worden gemaakt.</p><div class="row"><button class="bad" data-c="confirmDel('${b.id}')">Ja, verwijderen</button><button data-c="cancelDel()">Nee, laat staan</button></div></div>`;
+ return `<div class="card book" style="border-left:6px solid ${c}"><div class="ic" style="background:${c}26">${icon(b)}</div><div class="bi"><h2>${esc(b.title)}</h2><span class="mut">${b.cards.length} begrippen</span></div>
+ <div class="acts">${inside?'':`<button class="p" data-c="go('book',{id:'${b.id}'})">Openen</button>`}<button class="sm" title="Naam wijzigen" data-c="startRen('${b.id}')">✏️</button><button class="sm" title="Verwijderen" data-c="askDel('${b.id}')">🗑️</button></div></div>`}
+function askDel(id){s.del=id;s.ren=null;render()}
+function cancelDel(){s.del=null;render()}
+function confirmDel(id){books=books.filter(x=>x.id!==id);save();s.del=null;if(s.v==='book')go('home');else{render();toast('Verwijderd')}}
+function delBook(){askDel(s.id)}
+function startRen(id){s.ren=id;s.del=null;render();const r=document.getElementById('rn');if(r){r.focus();if(r.select)r.select()}}
+function cancelRen(){s.ren=null;render()}
+function saveRen(id){const r=document.getElementById('rn'),v=r?r.value.trim():'';if(v){const b=books.find(x=>x.id===id);if(b){b.title=v;save();toast('Naam gewijzigd ✓')}}s.ren=null;render()}
+const mkOpts=(c,q)=>shuf([q.d,...[...new Set(shuf(c.filter(x=>x.d!==q.d)).map(x=>x.d))].slice(0,3)]);
+function lev(a,b){const m=[...Array(b.length+1).keys()];for(let i=1;i<=a.length;i++){let p=m[0];m[0]=i;for(let j=1;j<=b.length;j++){const t=m[j];m[j]=Math.min(m[j]+1,m[j-1]+1,p+(a[i-1]===b[j-1]?0:1));p=t}}return m[b.length]}
+function accepts(v,ans){const n=norm(v);if(!n)return 0;
+ const alts=new Set([norm(ans),norm(ans.replace(/\([^)]*\)/g,''))]);
+ ans.split(/[\/;]/).forEach(x=>{const y=norm(x.replace(/\([^)]*\)/g,''));if(y)alts.add(y)});
+ if(alts.has(n))return 2;
+ for(const a of alts)if(a.length>=5&&lev(n,a)<=1)return 1;
+ return 0}
+async function exportData(){
+ const data=JSON.stringify({app:'studiestart',v:1,pts:PTS,books},null,1),name='studiestart-backup.json';
+ try{const d=window.claude?await claude.use('downloads'):null;if(d){await d.save({filename:name,data});toast('Back-up opgeslagen ✓');return}}catch(e){if(e&&e.code==='declined')return}
+ try{const u=URL.createObjectURL(new Blob([data],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),3000);toast('Back-up gemaakt ✓')}catch(e){toast('Back-up maken lukt hier niet.')}}
+function pickImport(){const i=document.getElementById('imp');if(i)i.click()}
+function importData(f){const r=new FileReader();r.onload=()=>{try{
+ const o=JSON.parse(r.result);if(!o||!Array.isArray(o.books))throw 0;let n=0;
+ o.books.forEach(b=>{if(b&&typeof b.title==='string'&&Array.isArray(b.cards)&&!books.find(x=>x.id===b.id)){books.push({id:String(b.id||'').replace(/[^\w-]/g,'')||('b'+Date.now()+n),cid:b.cid,title:b.title,nch:+b.nch||0,cards:b.cards.filter(c=>c&&c.t&&c.d).map(c=>{const o={t:String(c.t),d:String(c.d)};if(+c.h)o.h=+c.h;if(typeof c.o==='string'&&c.o){const oo=c.o.replace(/['"()<>&]/g,'').trim();if(oo)o.o=oo}if(+c.r)o.r=+c.r;if(+c.w)o.w=+c.w;return o})});n++}});
+ if(+o.pts>PTS)addPts(+o.pts-PTS);save();render();toast(n+' lijst(en) teruggezet ✓')}catch(e){toast('Dit is geen geldige back-up.')}};r.readAsText(f)}
+const OCR_SRC='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+const LANGS={nl:['Nederlands + Engels',['nld','eng']],fr:['Frans + Nederlands',['fra','nld']],de:['Duits + Nederlands',['deu','nld']],es:['Spaans + Nederlands',['spa','nld']],en:['Alleen Engels',['eng']]};
+let OLANG='nl';try{OLANG=localStorage.getItem('studiestart.lang')||'nl'}catch(e){}
+function loadScript(src){return new Promise((res,rej)=>{if(window.Tesseract)return res();const el=document.createElement('script');el.src=src;el.onload=res;el.onerror=()=>rej(new Error('load'));document.head.appendChild(el)})}
+async function prepImage(file){
+ let bmp;try{bmp=await createImageBitmap(file)}catch(e){bmp=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=URL.createObjectURL(file)})}
+ const k=Math.min(1,2200/Math.max(bmp.width,bmp.height)),c=document.createElement('canvas');c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);
+ const x=c.getContext('2d',{willReadFrequently:true});x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(bmp,0,0,c.width,c.height);
+ const im=x.getImageData(0,0,c.width,c.height),d=im.data,hist=new Uint32Array(256),tot=c.width*c.height;
+ for(let i=0;i<d.length;i+=4){const v=(d[i]*.299+d[i+1]*.587+d[i+2]*.114)|0;d[i]=d[i+1]=d[i+2]=v;hist[v]++}
+ let lo=0,hi=255,a=0;while(lo<255&&a+hist[lo]<tot*.01){a+=hist[lo];lo++}a=0;while(hi>0&&a+hist[hi]<tot*.01){a+=hist[hi];hi--}
+ if(hi>lo+10){const sc=255/(hi-lo);for(let i=0;i<d.length;i+=4){const v=Math.max(0,Math.min(255,((d[i]-lo)*sc)|0));d[i]=d[i+1]=d[i+2]=v}}
+ x.putImageData(im,0,0);return c}
+function ocrRows(words){
+ const W=(words||[]).filter(w=>w&&w.text&&w.text.trim()&&w.bbox&&(w.confidence==null||w.confidence>=30)).map(w=>({t:w.text.trim(),x0:w.bbox.x0,x1:w.bbox.x1,yc:(w.bbox.y0+w.bbox.y1)/2,h:w.bbox.y1-w.bbox.y0}));
+ if(!W.length)return[];
+ const hs=W.map(w=>w.h).sort((p,q)=>p-q),H=hs[hs.length>>1]||10;
+ W.sort((p,q)=>p.yc-q.yc);const rows=[];
+ for(const w of W){const r=rows[rows.length-1];if(r&&Math.abs(w.yc-r.yc)<=H*.6){r.w.push(w);r.yc=r.w.reduce((s,z)=>s+z.yc,0)/r.w.length}else rows.push({yc:w.yc,w:[w]})}
+ return rows.map(r=>{r.w.sort((p,q)=>p.x0-q.x0);const cols=[[r.w[0]]];for(let i=1;i<r.w.length;i++){if(r.w[i].x0-r.w[i-1].x1>H*1.6)cols.push([r.w[i]]);else cols[cols.length-1].push(r.w[i])}return cols.map(c=>c.map(w=>w.t).join(' '))})}
+function ocrToText(rows){return rows.map(cols=>{cols=cols.map(s=>s.replace(/[|\[\]{}_~]+/g,' ').replace(/\s+/g,' ').trim()).filter(Boolean);if(cols.length>=2)cols[0]=cols[0].replace(/^\d{1,3}[.):]?\s+/,'');return cols.length>=2?cols[0]+' = '+cols.slice(1).join(' '):(cols[0]||'')}).filter(l=>l.length>2).join('\n')}
+const OSTAT={'loading tesseract core':'Leesmodule laden','initializing tesseract':'Starten','loading language traineddata':'Taalgegevens laden (eerste keer duurt langer)','initializing api':'Starten','recognizing text':'Tekst herkennen'};
+function addText(t,msg){const tx=document.getElementById('tx'),st=document.getElementById('phs');if(!tx)return 0;const n=parse(t).length;
+ if(!n){if(st)st.textContent='Ik kon geen woorden vinden. Probeer een scherpere foto, recht van boven en met goed licht.';return 0}
+ tx.value+=(tx.value&&!tx.value.endsWith('\n')?'\n':'')+t;tx.dispatchEvent(new Event('input'));
+ if(st)st.textContent='✅ '+n+' begrippen gevonden. Controleer ze hieronder en druk op Opslaan.';return n}
+async function ocrImages(files){
+ const st=document.getElementById('phs');if(!st||!files.length)return;
+ st.textContent='⏳ Foto voorbereiden...';
+ try{await loadScript(OCR_SRC)}catch(e){st.textContent='De leesmodule kon niet geladen worden. De eerste keer is internet nodig. Probeer het later opnieuw, of typ/plak je lijst.';return}
+ let wk=null;
+ try{
+  wk=await window.Tesseract.createWorker(LANGS[OLANG][1],1,{logger:m=>{if(m&&m.status){const p=m.progress!=null?' '+Math.round(m.progress*100)+'%':'';st.textContent='⏳ '+(OSTAT[m.status]||m.status)+p}}});
+  let all='';
+  for(const f of files.slice(0,5)){
+   st.textContent='⏳ Foto voorbereiden...';const cv=await prepImage(f);const r=await wk.recognize(cv),d=(r&&r.data)||{};
+   let words=d.words;if(!words&&d.lines)words=d.lines.flatMap(l=>l.words||[]);if(!words&&d.blocks)words=d.blocks.flatMap(b=>(b.paragraphs||[]).flatMap(p=>(p.lines||[]).flatMap(l=>l.words||[])));
+   const t=words&&words.length?ocrToText(ocrRows(words)):(d.text||'').split(/\r?\n/).map(l=>l.trim().replace(/\s{2,}/g,' = ')).filter(l=>l.length>2).join('\n');
+   all+=(all&&t?'\n':'')+t}
+  addText(all);
+ }catch(e){st.textContent='Foto lezen is mislukt. Probeer een scherpere foto, of typ/plak je lijst.'}
+ finally{try{if(wk)await wk.terminate()}catch(e){}}}
+function pickPhoto(k){const i=document.getElementById(k==='cam'?'ph':'pf');if(i)i.click()}
+async function handleFiles(files){
+ const st=document.getElementById('phs'),imgs=[];
+ for(const f of files){const n=f.name||'',ty=f.type||'';
+  if(ty.startsWith('image/'))imgs.push(f);
+  else if(/\.(txt|csv|tsv)$/i.test(n)||ty.startsWith('text/')){let t='';try{t=await f.text()}catch(e){}addText(t)}
+  else if(/\.pdf$/i.test(n)||ty==='application/pdf'){if(st)st.textContent="PDF's kan ik nog niet lezen. Maak er een foto of screenshot van."}
+  else if(st)st.textContent='Dit bestandstype kan ik niet lezen. Gebruik een foto, .txt of .csv.'}
+ if(imgs.length)await readPhoto(imgs)}
+async function pastePhoto(){
+ try{const C=navigator.clipboard;
+  if(C&&C.read){const items=await C.read(),fs=[];let txt='';
+   for(const it of items){const im=it.types.find(t=>t.startsWith('image/'));if(im)fs.push(new File([await it.getType(im)],'plak.png',{type:im}));else if(it.types.includes('text/plain'))txt+=await(await it.getType('text/plain')).text()}
+   if(fs.length){handleFiles(fs);return}if(txt.trim()){addText(txt);return}}
+  else if(C&&C.readText){const t=await C.readText();if(t.trim()){addText(t);return}}
+  toast('Er staat niks op je klembord dat ik kan gebruiken.')}
+ catch(e){toast('Je browser staat plakken hier niet toe. Probeer Ctrl+V in het tekstvak.')}}
+document.addEventListener('paste',e=>{if(s.v!=='add')return;const cd=e.clipboardData;if(!cd)return;const fs=[...(cd.files||[])];
+ if(fs.length){e.preventDefault();handleFiles(fs);return}
+ const t=cd.getData('text'),tx=document.getElementById('tx');if(t&&tx&&document.activeElement!==tx&&document.activeElement.tagName!=='INPUT'){e.preventDefault();addText(t)}});
+document.addEventListener('dragover',e=>{if(s.v==='add')e.preventDefault()});
+document.addEventListener('drop',e=>{if(s.v!=='add')return;e.preventDefault();const fs=[...((e.dataTransfer&&e.dataTransfer.files)||[])];if(fs.length)handleFiles(fs)});
+let TOK=false;try{TOK=localStorage.getItem('studiestart.terms')==='1'}catch(e){}
+function terms(){app.innerHTML=`<div class="hero"><h1>Welkom bij StudieStart 📚</h1><p>Lees even de gebruiksvoorwaarden voordat je begint.</p></div>
+ <div class="card"><h2>Gebruiksvoorwaarden</h2>
+ <ol style="padding-left:20px;margin:0">
+ <li><b>Zoals het is.</b> StudieStart is een gratis hulpmiddel om te oefenen. Er is geen garantie dat de app foutloos werkt, altijd beschikbaar is of geschikt is voor jouw doel.</li>
+ <li><b>Gebruik op eigen risico.</b> Je gebruikt de app op eigen risico. De maker is niet aansprakelijk voor schade aan je apparaat, virussen, bugs, storingen of verlies van gegevens, voor zover de wet dat toestaat.</li>
+ <li><b>Gegevens blijven op jouw apparaat.</b> Je lijsten en punten worden opgeslagen in je eigen browser. Wis je je browsergegevens of wissel je van apparaat, dan kunnen ze weg zijn. Maak daarom regelmatig een back-up.</li>
+ <li><b>Foto's.</b> In de losse app worden foto's op je eigen apparaat uitgelezen (de leesmodule wordt de eerste keer van internet gedownload). Gebruik je StudieStart binnen Claude, dan wordt de foto verwerkt door Claude (Anthropic). Upload geen foto's met persoonlijke gegevens.</li>
+ <li><b>Controleer de uitkomst.</b> Ingelezen woorden en uitleg kunnen fouten bevatten. Controleer ze voordat je ze leert, bijvoorbeeld voor een toets.</li>
+ <li><b>Jonger dan 10?</b> Vraag dan eerst toestemming aan een ouder of verzorger.</li>
+ </ol></div>
+ <label class="card row" style="cursor:pointer;flex-wrap:nowrap"><input type="checkbox" id="tc" style="width:22px;height:22px;flex:none"><span>Ik heb de voorwaarden gelezen en ga akkoord.</span></label>
+ <button class="p" style="width:100%" data-c="acceptTerms()">Akkoord en starten</button>`}
+function acceptTerms(){const c=document.getElementById('tc');if(!c||!c.checked){toast('Vink eerst aan dat je akkoord gaat.');return}TOK=true;try{localStorage.setItem('studiestart.terms','1')}catch(e){}render();window.scrollTo(0,0)}
+const OND=['Basisstof 1','Basisstof 2','Basisstof 3','Basisstof 4','Basisstof 5','Basisstof 6','Extra stof','Samenvatting','Oefentoets'];
+const known=x=>(x.r||0)>=2&&(x.r||0)>=2*(x.w||0);
+const isHard=x=>(x.w||0)>0&&(x.r||0)<(x.w||0)*2+2;
+const nch=b=>Math.max(b.nch||0,...b.cards.map(c=>c.h||0));
+function pool(b){let c=b.cards;if(s.selH&&s.selH.length)c=c.filter(x=>s.selH.includes(x.h||0));if(s.selO&&s.selO.length)c=c.filter(x=>s.selO.includes(x.o||''));if(s.hard)c=c.filter(isHard);return c}
+function mark(c,ok){const o=c&&c._;if(!o)return;if(ok)o.r=(o.r||0)+1;else o.w=(o.w||0)+1;save()}
+function chCard(b,h,N){
+ const idx=b.cards.map((c,i)=>[c,i]).filter(x=>(x[0].h||0)===h),n=idx.length,kn=idx.filter(x=>known(x[0])).length,os={};
+ idx.forEach(x=>{const o=x[0].o||'';os[o]=(os[o]||0)+1});
+ const chips=Object.keys(os).filter(Boolean).map(o=>`<span class="chip">${esc(o)} <small>(${os[o]})</small></span>`).join('');
+ const hOpt=c=>`<option value="0">–</option>`+[...Array(N).keys()].map(i=>`<option value="${i+1}" ${(c.h||0)===i+1?'selected':''}>H${i+1}</option>`).join('');
+ const oOpt=c=>`<option value="">–</option>`+(c.o&&!OND.includes(c.o)?`<option selected>${esc(c.o)}</option>`:'')+OND.map(o=>`<option ${c.o===o?'selected':''}>${o}</option>`).join('');
+ return `<div class="card"><div class="row sp"><h2 style="margin:0">${h?'Hoofdstuk '+h:'Zonder hoofdstuk'}</h2><span class="mut">${n} woorden</span></div>
+ ${n?`<div class="bar" style="margin:8px 0"><i style="width:${kn/n*100}%"></i></div><span class="mut">${kn} van ${n} goed geleerd</span>`:'<p class="mut">Nog geen woorden in dit hoofdstuk.</p>'}
+ <div class="chips">${chips}</div>
+ <div class="row" style="margin-top:10px">${n?`<button class="p" data-c="playCh('${b.id}:${h}')">▶ Oefenen</button>`:''}<button data-c="addTo('${b.id}:${h}')">+ Woorden</button></div>
+ ${n?`<details style="margin-top:10px" data-h="${h}" ${s.open===h?'open':''}><summary class="mut" style="cursor:pointer">Woorden bekijken en verplaatsen</summary><div class="wrap"><table>${idx.map(([c,i])=>`<tr><td><b>${esc(c.t)}</b></td><td>${esc(c.d)}<div class="row" style="margin-top:4px;gap:4px"><select class="mini" data-i="mv:${i}">${hOpt(c)}</select><select class="mini" data-i="mo:${i}">${oOpt(c)}</select></div></td><td><button class="g" data-c="delCard(${i})">✕</button></td></tr>`).join('')}</table></div></details>`:''}</div>`}
+function book(){const b=bk(),N=nch(b);
+ app.innerHTML=`<button class="g" data-c="go('home')">← Alle boeken</button>${bookCard(b,true)}
+ <div class="row" style="margin:12px 0"><button class="p" data-c="go('games',{id:'${b.id}'})">🎮 Spelen met dit boek</button><button data-c="go('add',{edit:'${b.id}'})">+ Woorden of foto</button><button data-c="copyTxt()">📋 Kopieer als tekst</button></div>
+ ${!b.cards.length&&!N?'<div class="card">Dit boek is nog leeg. Maak hoofdstukken aan (knop hieronder) en voeg de woorden toe: typ, plak of maak een foto.</div>':''}
+ ${[...Array(N).keys()].map(i=>chCard(b,i+1,N)).join('')}${b.cards.some(c=>!c.h)?chCard(b,0,N):''}
+ <div class="row"><button data-c="addCh(1)">+ Hoofdstuk</button><button data-c="addCh(5)">+ 5 hoofdstukken</button>${N&&!b.cards.some(c=>c.h===N)?'<button class="g" data-c="addCh(-1)">− Laatste weghalen</button>':''}</div>`}
+function addCh(n){const b=bk();b.nch=Math.max(0,nch(b)+n);save();book()}
+function addTo(a){const [id,h]=String(a).split(':');go('add',{edit:id,preh:+h||0})}
+function playCh(a){const [id,h]=String(a).split(':');go('games',{id,selH:[+h||0]})}
+function whereHtml(b){const N=b?Math.max(nch(b),10):20,pre=s.preh||0;
+ return `<div class="card"><b>📍 Waar horen deze woorden?</b><div class="row" style="margin-top:8px"><select id="sh"><option value="0">Geen hoofdstuk</option>${[...Array(N).keys()].map(i=>`<option value="${i+1}" ${pre===i+1?'selected':''}>Hoofdstuk ${i+1}</option>`).join('')}</select>
+ <select id="so"><option value="">Geen onderdeel</option>${OND.map(o=>`<option>${o}</option>`).join('')}</select></div><input id="sc" style="margin-top:8px" placeholder="Of eigen onderdeel, bijv. Paragraaf 3"></div>`}
+function chipsFor(b){const all=b.cards,hs=[...new Set(all.map(c=>c.h||0))].sort((x,y)=>x-y),os=[...new Set(all.map(c=>c.o||'').filter(Boolean))],hn=all.filter(isHard).length,none=!(s.selH&&s.selH.length)&&!(s.selO&&s.selO.length);
+ return `${hs.length>1||hs[0]>0||os.length?`<p class="mut">Welke woorden wil je oefenen?</p><div class="chips"><button class="chip ${none?'on':''}" data-c="clearSel()">Alles</button>${hs.map(h=>`<button class="chip ${(s.selH||[]).includes(h)?'on':''}" data-c="togH(${h})">${h?'Hoofdstuk '+h:'Zonder hoofdstuk'} <small>(${all.filter(c=>(c.h||0)===h).length})</small></button>`).join('')}</div>
+ ${os.length?`<div class="chips">${os.map(o=>`<button class="chip ${(s.selO||[]).includes(o)?'on':''}" data-c="togO('${o}')">${esc(o)}</button>`).join('')}</div>`:''}`:''}
+ ${hn?`<div class="chips"><button class="chip ${s.hard?'on':''}" data-c="togHard()">🔥 Alleen moeilijke woorden (${hn})</button></div>`:''}
+ <p class="mut">${pool(b).length} woorden geselecteerd</p>`}
+function tog(k,v){s[k]=s[k]||[];const i=s[k].indexOf(v);if(i<0)s[k].push(v);else s[k].splice(i,1);render()}
+function togH(a){tog('selH',+a)}function togO(a){tog('selO',String(a))}
+function togHard(){s.hard=!s.hard;render()}function clearSel(){s.selH=[];s.selO=[];s.hard=false;render()}
+function backGames(){g=null;s.v='games';render()}
+let SOUND=true,AC=null,GOAL=20,BEST={};
+try{SOUND=localStorage.getItem('studiestart.sound')!=='0';GOAL=+localStorage.getItem('studiestart.goal')||20;BEST=JSON.parse(localStorage.getItem('studiestart.best'))||{}}catch(e){}
+function snd(k){if(k<2&&navigator.vibrate){try{navigator.vibrate(k?25:[60,40,60])}catch(e){}}if(!SOUND)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const seq=k===1?[[660,0],[880,.09]]:k===2?[[523,0],[659,.1],[784,.2],[1047,.3]]:[[196,0],[147,.12]];
+ seq.forEach(([f,t])=>{const o=AC.createOscillator(),gn=AC.createGain(),T=AC.currentTime+t;o.type=k===0?'triangle':'sine';o.frequency.value=f;gn.gain.setValueAtTime(.0001,T);gn.gain.exponentialRampToValueAtTime(.18,T+.02);gn.gain.exponentialRampToValueAtTime(.0001,T+.16);o.connect(gn);gn.connect(AC.destination);o.start(T);o.stop(T+.18)})}catch(e){}}
+function togSound(){SOUND=!SOUND;try{localStorage.setItem('studiestart.sound',SOUND?'1':'0')}catch(e){}if(SOUND)snd(1);render()}
+function bestUp(k,v){const old=BEST[k]||0;if(v>old){BEST[k]=v;try{localStorage.setItem('studiestart.best',JSON.stringify(BEST))}catch(e){}return old>0?' 🏆 Nieuw record!':''}return old?` (record: ${old})`:''}
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+let DAY={d:'',p:0,last:'',streak:0,gd:''};try{DAY=Object.assign(DAY,JSON.parse(localStorage.getItem('studiestart.day')))}catch(e){}
+function dayState(){const t=iso(new Date()),y=iso(new Date(Date.now()-864e5));return{p:DAY.d===t?DAY.p:0,streak:(DAY.last===t||DAY.last===y)?DAY.streak:0}}
+function addPts(n){const t=iso(new Date()),y=iso(new Date(Date.now()-864e5));PTS+=n;
+ if(DAY.d!==t){DAY.d=t;DAY.p=0}if(DAY.last!==t){DAY.streak=DAY.last===y?DAY.streak+1:1;DAY.last=t}DAY.p+=n;
+ if(DAY.p>=GOAL&&DAY.gd!==t){DAY.gd=t;toast('🎯 Dagelijks doel gehaald!')}
+ try{localStorage.setItem('studiestart.pts',PTS);localStorage.setItem('studiestart.day',JSON.stringify(DAY))}catch(e){}}
+function goalRow(){const d=dayState();return `<div class="goal"><div class="row sp"><small>🔥 ${d.streak} ${d.streak===1?'dag':'dagen'} op rij</small><small>🎯 Vandaag ${d.p}/${GOAL}</small></div><div class="bar hb"><i style="width:${Math.min(100,d.p/GOAL*100)}%"></i></div></div>`}
+function say(){if(!('speechSynthesis' in window)||!g||!g.deck)return;const c=g.deck[g.i],o=(c&&c._)||c,b=bk(),L=[['Engels','en-GB'],['Frans','fr-FR'],['Duits','de-DE'],['Spaans','es-ES']].find(x=>b.title.includes(x[0]));
+ const u=new SpeechSynthesisUtterance(o.t);u.lang=L?L[1]:'nl-NL';speechSynthesis.cancel();speechSynthesis.speak(u)}
+function scNew(){const a=g.src[g.i].ans.replace(/\s/g,'');let L=[...a],t=0;if(L.length>1)do{L=shuf(L)}while(L.join('')===a&&t++<6);g.L=L;g.used=[];g.res=null}
+function gScr(){
+ if(g.i>=g.src.length){app.innerHTML=fin(`Score: ${g.score} / ${g.src.length}`,'scr');return}
+ const c=g.src[g.i],r=g.res;
+ app.innerHTML=hd(`${g.i+1} / ${g.src.length}`,g.i/g.src.length*100)+`<div class="card"><p class="mut">Zet de letters in de goede volgorde</p><h2>${esc(c.ask)}</h2>
+ <div class="lt">${g.L.map((_,k)=>g.used[k]!==undefined?esc(g.L[g.used[k]]):'_').join(' ')}</div>
+ ${r?`<p style="font-weight:600;color:var(--${r.ok?'ok':'bad'})">${r.ok?'✓ Goed!':'✗ Het juiste antwoord: '+esc(c.ans)}</p><button class="p" data-c="scNext()">Volgende →</button>`:`<div class="kb">${g.L.map((l,k)=>`<button data-c="scL(${k})" ${g.used.includes(k)?'disabled':''}>${esc(l)}</button>`).join('')}</div><div class="row" style="justify-content:center;margin-top:10px"><button class="sm" data-c="scBack()">⌫ Terug</button></div>`}</div>`}
+function scL(k){if(g.res||g.used.includes(k))return;g.used.push(k);
+ if(g.used.length===g.L.length){const ok=norm(g.used.map(i=>g.L[i]).join(''))===norm(g.src[g.i].ans.replace(/\s/g,''));g.res={ok};mark(g.src[g.i],ok);if(ok){g.score++;addPts(2);snd(1)}else snd(0)}render()}
+function scBack(){if(g.res)return;g.used.pop();render()}
+function scNext(){g.i++;if(g.i<g.src.length)scNew();render()}
+function matNew(){g.P=g.rs[g.r];g.R=shuf(g.P.map((_,i)=>i));g.done=[];g.sel=null}
+function gMat(){
+ if(g.r>=g.rs.length){app.innerHTML=fin(`${g.score} paren goed, ${g.wrong} fout`,'mat');return}
+ const P=g.P,sel=g.sel,cell=(sd,i,txt)=>{const dn=g.done.includes(i),up=sel&&sel.s===sd&&sel.i===i;return `<button class="opt ${dn?'ok':up?'sel':''}" style="margin:0" ${dn?'disabled':''} data-c="mat${sd}(${i})">${esc(txt)}</button>`};
+ app.innerHTML=hd(`Ronde ${Math.min(g.r+1,g.rs.length)} / ${g.rs.length}`,g.r/g.rs.length*100)+`<p class="mut">Tik een woord en dan de uitleg die erbij hoort.</p><div class="match"><div>${P.map((c,i)=>cell('L',i,c.t)).join('')}</div><div>${g.R.map(i=>cell('R',i,P[i].d)).join('')}</div></div>`}
+function matTap(sd,i){
+ if(g.sel&&g.sel.s!==sd){const a=sd==='L'?i:g.sel.i,b=sd==='R'?i:g.sel.i;
+  if(a===b){g.done.push(a);g.score++;addPts(1);mark(g.P[a],true);snd(1);g.sel=null;
+   if(g.done.length===g.P.length){g.r++;if(g.r<g.rs.length){const gg=g;render();setTimeout(()=>{if(g!==gg)return;matNew();render()},600);return}}}
+  else{g.wrong++;mark(g.P[sd==='L'?i:g.sel.i],false);snd(0);g.sel=null}}
+ else g.sel={s:sd,i};render()}
+function matL(i){matTap('L',i)}function matR(i){matTap('R',i)}
+function surQ(){if(g.i>=g.q.length){g.q=shuf(g.c);g.i=0}const q=g.q[g.i];g.cur={q,opts:mkOpts(g.c,q)};g.pick=null}
+function gSur(){
+ if(g.lives<=0&&g.pick===null){if(g.rec===undefined)g.rec=bestUp('sur',g.score);app.innerHTML=fin(`🔥 Je overleefde ${g.score} vragen${g.rec}`,'sur');return}
+ const q=g.cur;
+ app.innerHTML=hd(`${'❤️'.repeat(g.lives)}${'🖤'.repeat(3-g.lives)} · ${g.score} goed`,null)+`<div class="card"><p class="mut">Kies het juiste antwoord bij:</p><h2>${esc(q.q.t)}</h2>${q.opts.map((o,k)=>{let c='';if(g.pick!==null){if(o===q.q.d)c='ok';else if(k===g.pick)c='bad'}return `<button class="opt ${c}" ${g.pick!==null?'disabled':''} data-c="surA(${k})">${esc(o)}</button>`}).join('')}</div>`}
+function surA(k){if(g.pick!==null)return;g.pick=k;const q=g.cur,ok=q.opts[k]===q.q.d;mark(q.q,ok);if(ok){g.score++;addPts(1);snd(1)}else{g.lives--;snd(0)}render();const gg=g;setTimeout(()=>{if(g!==gg)return;g.i++;surQ();render()},ok?600:1100)}
+function gExam(){
+ const N=g.deck.length;
+ if(g.done){const rows=g.deck.map((c,i)=>({c,a:g.ans[i],m:accepts(g.ans[i],c.ans)})),bad=rows.filter(r=>r.m!==2),sc=N-bad.length,gr=Math.round((1+9*sc/N)*10)/10;
+  app.innerHTML=hd('Resultaat',100)+`<div class="card" data-win="1"><h2>Cijfer: <span style="color:var(--${gr>=5.5?'ok':'bad'});font-size:34px">${gr.toFixed(1).replace('.',',')}</span></h2><p>${sc} van ${N} goed.</p><button class="p" data-c="start('exam')">Nog een toets</button></div>
+  ${bad.length?`<div class="card"><h2>Dit ging fout</h2><div class="wrap"><table>${bad.map(r=>`<tr><td>${esc(r.c.ask)}</td><td><s>${esc(r.a||'(leeg)')}</s><br><b>${esc(r.c.ans)}</b></td></tr>`).join('')}</table></div></div>`:'<div class="card">Alles goed! 💯</div>'}`;return}
+ const c=g.deck[g.i];
+ app.innerHTML=hd(`Vraag ${g.i+1} / ${N}`,g.i/N*100)+`<div class="card"><p class="mut">Typ het bijbehorende antwoord. Je ziet pas aan het eind wat goed was.</p><h2>${esc(c.ask)}</h2><input id="ans" autocomplete="off" autocapitalize="none" placeholder="Jouw antwoord"><div style="margin-top:10px"><button class="p" data-c="examNext()">${g.i===N-1?'Inleveren':'Volgende →'}</button></div></div>`;
+ const a=document.getElementById('ans');if(a)a.focus()}
+function examNext(){const e=document.getElementById('ans');g.ans.push(e?e.value:'');g.i++;
+ if(g.i>=g.deck.length){let sc=0;g.deck.forEach((c,i)=>{const ok=accepts(g.ans[i],c.ans)===2;mark(c,ok);if(ok)sc++});addPts(sc*2);g.done=true}render()}
+const FN={playCh,addTo,addCh,togH,togO,togHard,clearSel,backGames,togSound,say,scL,scBack,scNext,matL,matR,surA,examNext,acceptTerms,pastePhoto,exportData,pickImport,askDel,cancelDel,confirmDel,startRen,saveRen,cancelRen,doAdd,delBook,delCard,start,pickQ,flip,addCat,flashFlip,flashMiss,flashKnow,flashAgain,quizNext,checkType,typeNext,tfA,tfNext,hg,hangNext,raceA,pickPhoto,popA,duelA,duelNext,setTheme,setFont,copyTxt};
+function run(c){let m;c=c.trim();
+ if(m=c.match(/^go\('(\w+)'(?:,\{(id|edit|own|photo):'([^']*)'\})?\)/)){go(m[1],m[2]?{[m[2]]:m[3]}:{});return}
+ if((m=c.match(/^(\w+)\(\s*'?([^')]*)'?\s*\)/))&&FN[m[1]]){const a=m[2];FN[m[1]](a===''?undefined:(isNaN(a)?a:+a))}}
+document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-c]');if(t&&!t.disabled){e.preventDefault();run(t.getAttribute('data-c'))}});
+['input','change'].forEach(ev=>document.addEventListener(ev,e=>{const t=e.target.closest&&e.target.closest('[data-i]');if(!t)return;const k=t.getAttribute('data-i');if(k==='src'){s.id=t.value;s.selH=[];s.selO=[];s.hard=false;render()}else if(k==='goal'){GOAL=+t.value||20;try{localStorage.setItem('studiestart.goal',GOAL)}catch(e){}render()}else if(k.indexOf('mv:')===0){const c=bk().cards[+k.slice(3)];if(c){const v=+t.value||0;if(v)c.h=v;else delete c.h;s.open=v;save();book()}}else if(k.indexOf('mo:')===0){const c=bk().cards[+k.slice(3)];if(c){if(t.value)c.o=t.value;else delete c.o;save();book()}}else if(k==='theme')setTheme(t.value);else if(k==='font')setFont(t.value);else if(k==='dir')DIR=t.value;else if(k==='lang'){OLANG=t.value;try{localStorage.setItem('studiestart.lang',OLANG)}catch(e){}}else setF()}));
+document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.tagName==='DETAILS'&&d.dataset.h!==undefined){const k=+d.dataset.h;if(d.open)s.open=k;else if(s.open===k)s.open=null}},true);
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[data-c]:not(button)')){e.preventDefault();run(e.target.getAttribute('data-c'));return}if(e.key==='Enter'&&e.target.id==='rn'&&s.ren){e.preventDefault();saveRen(s.ren);return}if(e.key==='Enter'&&e.target.id==='ans'&&g&&(g.t==='type'||g.t==='exam')){e.preventDefault();if(g.t==='exam')examNext();else checkType()}});
+render();
+</script><script>if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0){addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
+</body></html>

@@ -1,0 +1,33 @@
+STUDIESTART - installeren als app
+=================================
+
+In deze map zit alles wat de app nodig heeft:
+  index.html, manifest.webmanifest, sw.js en de map "icons".
+Laat alles bij elkaar staan.
+
+STAP 1 - Zet de app online (gratis, ongeveer 2 minuten)
+Een installeerbare app moet op een https-adres staan. Een makkelijke manier:
+  1. Pak deze zip uit.
+  2. Ga naar Netlify Drop (netlify.com/drop) en sleep de map "StudieStart" (uit deze zip) naar het scherm.
+  3. Je krijgt een adres, bijvoorbeeld iets.netlify.app. Dat is jouw app.
+  (GitHub Pages of Cloudflare Pages kan ook. Diensten kunnen veranderen.)
+
+STAP 2 - Installeer hem
+  Laptop (Chrome of Edge): open het adres en klik rechts in de adresbalk op het
+    installeer-icoontje, of kies menu (3 puntjes) > "StudieStart installeren".
+  Android (Chrome): menu (3 puntjes) > "App installeren" of "Toevoegen aan startscherm".
+  iPhone / iPad (Safari): Deel-knop > "Zet op beginscherm".
+
+LET OP
+  - Je lijsten en punten staan op elk apparaat apart. Wil je ze delen? Kies op het
+    ene apparaat "Back-up maken" (onderaan het beginscherm) en op het andere
+    "Terugzetten".
+  - Na het eerste bezoek werkt de app ook zonder internet.
+  - FOTO -> LIJST werkt in de app zelf. Kies "Foto maken", "Bestand kiezen" of
+    "Plakken" (of gebruik Ctrl+V / sleep een bestand). De eerste keer is internet nodig:
+    dan worden de leesmodule en de taalgegevens gedownload (dit kan even duren).
+    Kies bij "Taal in de foto" de juiste taal. Controleer het resultaat altijd
+    voordat je opslaat: een scherpe foto, recht van boven en met goed licht
+    geeft de beste uitkomst. Handschrift wordt slecht gelezen.
+  - Zonder installeren kun je index.html ook gewoon openen (dubbelklik), maar
+    dan is het geen echte app.
